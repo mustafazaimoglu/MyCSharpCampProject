@@ -12,7 +12,7 @@ namespace ConsoleUI
 
             ProductTest();
 
-            // IoC Container
+            // IoC
 
             //CategoryTest();
         }
@@ -33,10 +33,22 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
 
-            foreach (var p in productManager.GetProductDetails())
+            var result = productManager.GetProductDetails();
+
+            if(result.Success)
             {
-                Console.WriteLine(p.ProductName + " / "  + p.CategoryName);
+                foreach (var p in result.Data)
+                {
+                    Console.WriteLine(p.ProductName + " / " + p.CategoryName);
+                }
+                Console.WriteLine(result.Message);
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+            
         }
     }
 }
