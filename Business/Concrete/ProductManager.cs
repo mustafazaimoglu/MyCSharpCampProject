@@ -10,6 +10,8 @@ using System.Text;
 
 namespace Business.Concrete
 {
+    // RESTFUL --> HTTP /* TCP(Wired) */ --> 
+    // Controllers istekleri barındırır
     public class ProductManager : IProductService
     {
         IProductDal _productDal;
@@ -19,6 +21,12 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        // AOP loglama
+        // [LogAspect] --> AOP
+        // [Validate]
+        // [RemoveCache]
+        // [Transaction]
+        // [Performance]
         public IResult Add(Product product)
         {
             // Bussiness Codes
@@ -34,6 +42,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ProductAdded);
         }
 
+        // [Cache]
         public IDataResult<List<Product>> GetAll()
         {
             // İş Kodları
