@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
     {
         // Loosly coupled -- Gevsek Bağlılık
         IProductService _productService; // this is a field not a property and _(underscore) is a naming convention
-        // IoC Container = Inversion of Control 
+        // IoC Container = Inversion of Control // Inversion = Ters Çevirme, Evirme
 
         public ProductsController(IProductService productService)
         {

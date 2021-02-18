@@ -1,9 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,15 +31,25 @@ namespace Business.Concrete
         // [RemoveCache]
         // [Transaction]
         // [Performance]
+
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             // Bussiness Codes
+            // Validation
 
-            if(product.ProductName.Length < 2)
-            {
-                // Magic Strings
-                return new ErrorResult(Messages.ProductNameInvalid );
-            }
+            //if(product.UnitPrice <= 0) // FLUENTVALIDATION
+            //{
+            //    return new ErrorResult(Messages.UnitPriceInvalid);
+            //}
+
+            //if(product.ProductName.Length < 2)
+            //{
+            //    // Magic Strings
+            //    return new ErrorResult(Messages.ProductNameInvalid );
+            //}
+
+            //ValidationTool.Validate(new ProductValidator(),product); // old type
 
             _productDal.Add(product);
 
