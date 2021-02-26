@@ -10,13 +10,13 @@ namespace ConsoleUI
         {
             // Data Transformation Object
 
-            ProductTest();
+            //ProductTest();
 
             // IoC
 
             //CategoryTest();
         }
-
+        /*
         private static void CategoryTest()
         {
             CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
@@ -50,5 +50,6 @@ namespace ConsoleUI
 
             
         }
+        */
     }
 }
