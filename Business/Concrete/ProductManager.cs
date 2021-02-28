@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
@@ -15,7 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Business.Concrete
+namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan alınan paraloyı güçlendirmektir.
 {
     // RESTFUL --> HTTP /* TCP(Wired) */ --> 
     // Controllers istekleri barındırır
@@ -37,7 +38,9 @@ namespace Business.Concrete
         // [Transaction]
         // [Performance]
 
+        // Claim
 
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
