@@ -3,6 +3,9 @@ using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -42,6 +45,7 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
 
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             // Bussiness Codes
@@ -77,6 +81,8 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
         }
 
         // [Cache]
+        [CacheAspect] // key,value
+        [PerformanceAspect(5)]
         public IDataResult<List<Product>> GetAll()
         {
             // İş Kodları
@@ -94,6 +100,7 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
+        [CacheAspect]
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
@@ -116,6 +123,7 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
         }
 
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Update(Product product)
         {
             throw new NotImplementedException();
@@ -158,5 +166,19 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
             return new SuccessResult();
         }
 
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Product product)
+        {
+            Add(product);
+
+            if(product.UnitPrice < 10)
+            {
+                throw new Exception("");
+            }
+            
+            Add(product);
+
+            return null;
+        }
     }
 }
