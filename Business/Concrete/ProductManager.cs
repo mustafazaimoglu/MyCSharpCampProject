@@ -28,7 +28,7 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
         IProductDal _productDal;
         ICategoryService _categoryService;
 
-        public ProductManager(IProductDal productDal,ICategoryService categoryService) // Entity Manager kendisi hariç başka dalı enjekte edemez.
+        public ProductManager(IProductDal productDal, ICategoryService categoryService) // Entity Manager kendisi hariç başka dalı enjekte edemez.
         {
             _productDal = productDal;
             _categoryService = categoryService;
@@ -43,7 +43,7 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
 
         // Claim
 
-        [SecuredOperation("product.add,admin")]
+        //[SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
@@ -171,11 +171,11 @@ namespace Business.Concrete // Hashing - Rainbow table  // Salting kullanıcan a
         {
             Add(product);
 
-            if(product.UnitPrice < 10)
+            if (product.UnitPrice < 10)
             {
                 throw new Exception("");
             }
-            
+
             Add(product);
 
             return null;
